@@ -1,0 +1,8 @@
+object: Order
+fields:
+  id: uuid pk
+  buyer_name: text
+  created_at: timestamp
+  updated_at: timestamp
+relationships:
+  invoices: has_many Invoice
