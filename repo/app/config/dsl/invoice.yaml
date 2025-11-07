@@ -1,0 +1,24 @@
+object: Invoice
+fields:
+  id: uuid pk
+  order_id: uuid fk->Order.id
+  buyer_email: text
+  status: enum[draft, issued, partially_paid, paid]
+  amount: money
+  balance: money
+  issued_at: timestamp
+  due_at: timestamp
+relationships:
+  order: belongs_to Order
+state_machine:
+  states: [draft, issued, partially_paid, paid]
+  transitions:
+    - name: issue
+      from: draft
+      to: issued
+    - name: record_payment
+      from: [issued, partially_paid]
+      to: partially_paid
+    - name: settle
+      from: [issued, partially_paid]
+      to: paid
